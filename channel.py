@@ -19,4 +19,4 @@ def channel(N, num_train, Pmax=1, Pmin=0, var_noise=1, seed=1758):
         mid_time = time.time()
         Y[loop, :] = SWMMSE(Pini, H, Pmax, var_noise)
         total_time = total_time + time.time() - mid_time
-    return X, Y, total_time
+    return X_t, Y, total_time
