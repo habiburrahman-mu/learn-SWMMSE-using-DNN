@@ -9,7 +9,7 @@ num_train = 100000
 num_test = 10000
 epochs = 100
 batch_size = 256
-learning_rate = 0.0005
+learning_rate = 0.0001
 
 var = 1
 
@@ -20,7 +20,6 @@ Ptrain = load['Ytrain']
 H_test = loadTest['Xtest']
 P_test = loadTest['Ytest']
 timeW = loadTest['swmmsetime']
-swmmsetime = timeW[0, 0]
 
 weights = {
     'w_1': tf.Variable(tf.random_normal([N*N, 100], stddev=0.1)),
@@ -90,8 +89,8 @@ tf.global_variables_initializer().run()
 start_time = time.time()
 for e in range(epochs):
     for b in range(total_batch):
-        batch = np.random.randint(total_sample_size, size=batch_size)
-        _, training_cost = session.run([objective, loss], feed_dict={x: H_train, y: P_train})
+        batch = np.random.randint(training_sample_size, size=batch_size)
+        _, training_cost = session.run([objective, loss], feed_dict={x: H_train[batch, :], y: P_train[batch, :]})
         save_data[e, 0] = training_cost
     validation_cost = session.run(loss, feed_dict={x: H_val, y: P_val})
     save_data[e, 1] = validation_cost
